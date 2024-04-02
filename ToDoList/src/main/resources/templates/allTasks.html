@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.orgxmlns http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/stylesheet.css">
+    <title>My tasks</title>
+</head>
+
+<body>
+<div class="container">
+    <div class="navbar">
+        <table>
+            <tr>My tasks</tr>
+            <br/>
+            <tr>My day</tr>
+            <br/>
+            <tr>My week</tr>
+            <br/>
+            <tr>My categories</tr>
+            <br/>
+        </table>
+    </div>
+    <br/>
+    <div class="mainBox">
+        <h1>My tasks</h1>
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Created At</th>
+                <th>Planned On</th>
+                <th>Status</th>
+            </tr>
+            <tr th:each="task : ${tasks}" class="tasks">
+                <td th:text="${task.title}" class="tasks"></td>
+                <td th:text="${task.createdAt}" class="tasks"></td>
+                <td th:text="${task.plannedOn}" class="tasks"></td>
+                <td th:text="${task.status}" class="tasks"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

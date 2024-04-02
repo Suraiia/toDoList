@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.orgxmlns http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/stylesheet.css">
+    <title>Create task</title>
+</head>
+
+<body>
+<h1>Create task</h1>
+
+
+<form th:action="@{/createTask}" th:object="${task}" method="post">
+    <label for="title">Task:</label><br>
+    <input type="text" id="title" th:field="*{title}"><br>
+    <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+
+    <label for="plannedOn">Planned for:</label><br>
+    <input type="date" id="plannedOn" name="plannedOn"><br>
+
+    <label for="category">Category:</label><br>
+    <select id="category" name="category">
+        <option value="">--Select a Category--</option>
+        <option th:each="category : ${categories}"
+                th:value="${category.name}"
+                th:text="${category.name}"></option>
+    </select><br>
+
+    <label for="status">Status:</label><br>
+    <select id="status" name="status">
+        <option value="">--Select a Status--</option>
+        <option th:each="status : ${statuses}"
+                th:value="${status}"
+                th:text="${status}"></option>
+    </select><br>
+
+
+    <label for="colorPicker">Choose color:</label><br>
+    <input type="color" id="colorPicker" name="hexColor" value="#ff0000"><br>
+
+    <input type="submit" value="Save">
+</form>
+</body>
+</html>

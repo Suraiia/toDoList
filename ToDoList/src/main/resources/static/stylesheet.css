@@ -1,0 +1,12 @@
+.container {
+    display: flex;
+    width: 100%;
+}
+
+.navbar {
+    width: 30%;
+}
+
+.mainBox{
+    width: 70%;
+}
