@@ -13,7 +13,7 @@ public class Task {
 
     private String title;
 
-    private LocalDate createdAt;
+    private LocalDate createdAt = LocalDate.now();
 
     private LocalDate plannedOn;
 
@@ -72,4 +72,13 @@ public class Task {
     public void setCategory(Category category) {
         this.category = category;
     }
+
+    /*@PrePersist
+    public void prePersist() {
+        if (createdAt == null) {
+            createdAt = LocalDate.now();
+        }
+    }*/
+
+
 }

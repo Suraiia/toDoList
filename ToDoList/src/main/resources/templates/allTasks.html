@@ -30,12 +30,16 @@
                 <th>Created At</th>
                 <th>Planned On</th>
                 <th>Status</th>
+                <th>Category</th>
             </tr>
             <tr th:each="task : ${tasks}" class="tasks">
                 <td th:text="${task.title}" class="tasks"></td>
                 <td th:text="${task.createdAt}" class="tasks"></td>
                 <td th:text="${task.plannedOn}" class="tasks"></td>
                 <td th:text="${task.status}" class="tasks"></td>
+                <td class="tasks"
+                    th:style="'background-color:' + (${task.category != null} ? ${task.category.color} : ' ')">
+                    <span th:text="${task.category != null ? task.category.name : ' '}"></span>
             </tr>
         </table>
     </div>

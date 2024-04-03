@@ -17,7 +17,8 @@ public class TaskValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         ValidationUtils.rejectIfEmpty(errors, "title", "title.empty", "The title must not be empty.");
-        //ValidationUtils.rejectIfEmpty(errors, "plannedOn", "plannedOn.empty", "The date must not be empty.");
-        //ValidationUtils.rejectIfEmpty(errors, "status", "status.empty", "The status must not be empty.");
+        ValidationUtils.rejectIfEmpty(errors, "plannedOn", "plannedOn.empty", "The date must not be empty.");
+        ValidationUtils.rejectIfEmpty(errors, "status", "status.empty", "The status must not be empty.");
+        ValidationUtils.rejectIfEmpty(errors, "category", "category.empty", "The category must not be empty.");
     }
 }

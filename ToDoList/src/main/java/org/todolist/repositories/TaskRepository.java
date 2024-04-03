@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface TasksRepository extends CrudRepository<Task, Integer> {
+public interface TaskRepository extends CrudRepository<Task, Integer> {
 
     @Query("SELECT t FROM Task t WHERE t.plannedOn = :specificDate")
     List<Task> findTasksBySpecificDate(@Param("specificDate") LocalDate specificDate);

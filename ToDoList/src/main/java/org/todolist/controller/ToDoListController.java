@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.todolist.entities.Task;
-import org.todolist.repositories.TasksRepository;
+import org.todolist.repositories.TaskRepository;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,12 +14,12 @@ import java.util.List;
 @Controller
 public class ToDoListController {
     @Autowired
-    private TasksRepository tasksRepository;
+    private TaskRepository taskRepository;
     @GetMapping("/mainPage")
     public String getTasks(Model model){
 
         LocalDate today = LocalDate.now();
-        List<Task> tasksForToday = tasksRepository.findTasksBySpecificDate(today);
+        List<Task> tasksForToday = taskRepository.findTasksBySpecificDate(today);
         model.addAttribute("tasks", tasksForToday);
 
         return "mainPage";

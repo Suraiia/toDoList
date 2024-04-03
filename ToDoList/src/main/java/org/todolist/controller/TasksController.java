@@ -10,21 +10,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.todolist.entities.Category;
 import org.todolist.entities.Status;
 import org.todolist.entities.Task;
-import org.todolist.repositories.CategoriesRepository;
-import org.todolist.repositories.TasksRepository;
+import org.todolist.repositories.CategoryRepository;
+import org.todolist.repositories.TaskRepository;
 import org.todolist.validator.TaskValidator;
 
 import java.util.Arrays;
-import java.util.List;
 
 @Controller
 public class TasksController {
 
     @Autowired
-    private TasksRepository tasksRepository;
-    private CategoriesRepository categoriesRepository;
+    private TaskRepository taskRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     private final TaskValidator taskValidator;
+
 
     @Autowired
     public TasksController(TaskValidator taskValidator) {
@@ -33,15 +35,21 @@ public class TasksController {
 
     @GetMapping("/allTasks")
     public String showAllTasks(Model model) {
-        Iterable<Task> findAllTasks = tasksRepository.findAll();
+        Iterable<Task> findAllTasks = taskRepository.findAll();
         model.addAttribute("tasks", findAllTasks);
+
+        Iterable<Category> findAllCategories = categoryRepository.findAll();
+        model.addAttribute("categories", findAllCategories);
+        model.addAttribute("statuses", Arrays.asList(Status.values()));
         return "allTasks";
     }
 
     @GetMapping("/createTask")
     public String showCreateTaskForm(Model model) {
+        Category category = new Category();
+        Iterable<Category> findAllCategories = categoryRepository.findAll();
+        model.addAttribute("categories", findAllCategories);
         Task task = new Task();
-        model.addAttribute("categories", List.of("Work", "Personal", "Shopping"));
         model.addAttribute("statuses", Arrays.asList(Status.values()));
         model.addAttribute("task", task);
         return "createTask";
@@ -50,13 +58,13 @@ public class TasksController {
     @PostMapping("/createTask")
     public String saveTask(@Validated Task task, BindingResult result, Model model) {
         taskValidator.validate(task, result);
-        Iterable<Category> categories = categoriesRepository.findAll();
-        model.addAttribute("categories", categories);
-        model.addAttribute("priorities", Status.values());
+        Iterable<Category> findAllCategories = categoryRepository.findAll();
+        model.addAttribute("categories", findAllCategories);
+        model.addAttribute("statuses", Arrays.asList(Status.values()));
         if (result.hasErrors()) {
             return "createTask";
         }
-         tasksRepository.save(task);
+         taskRepository.save(task);
         return "redirect:/allTasks";
     }
 }
