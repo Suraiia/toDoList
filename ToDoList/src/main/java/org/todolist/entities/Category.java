@@ -1,6 +1,7 @@
 package org.todolist.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    @NotEmpty(message = "Category may not be empty")
     private String name;
 
     @Column(length = 7)

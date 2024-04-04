@@ -1,6 +1,9 @@
 package org.todolist.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.lang.NonNull;
 
 import java.time.LocalDate;
 
@@ -11,12 +14,15 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long taskId;
 
+    @NotEmpty(message = "Name may not be empty")
     private String title;
 
     private LocalDate createdAt = LocalDate.now();
 
+    @NotNull(message = "Planned date may not be empty")
     private LocalDate plannedOn;
 
+    @NotNull(message = "Status may not be empty")
     @Enumerated(EnumType.STRING)
     private Status status;
 

@@ -1,5 +1,6 @@
 package org.todolist.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,7 +57,7 @@ public class TasksController {
     }
 
     @PostMapping("/createTask")
-    public String saveTask(@Validated Task task, BindingResult result, Model model) {
+    public String saveTask(@Valid Task task, BindingResult result, Model model) {
         taskValidator.validate(task, result);
         Iterable<Category> findAllCategories = categoryRepository.findAll();
         model.addAttribute("categories", findAllCategories);
