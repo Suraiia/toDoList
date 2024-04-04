@@ -26,6 +26,7 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @NotNull(message = "Category may not be empty")
     @ManyToOne
     @JoinColumn(name = "categoryId")
     private Category category;

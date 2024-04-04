@@ -12,7 +12,6 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @NotEmpty(message = "Category may not be empty")
     private String name;
 
     @Column(length = 7)
