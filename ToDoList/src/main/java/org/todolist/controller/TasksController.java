@@ -5,9 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.todolist.entities.Category;
 import org.todolist.entities.Status;
 import org.todolist.entities.Task;
@@ -15,11 +13,11 @@ import org.todolist.repositories.CategoryRepository;
 import org.todolist.repositories.TaskRepository;
 import org.todolist.validator.TaskValidator;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 
 @Controller
+@RequestMapping(path = "/tasks")
 public class TasksController {
 
     @Autowired
@@ -36,37 +34,68 @@ public class TasksController {
         this.taskValidator = taskValidator;
     }
 
-    @GetMapping("/allTasks")
-    public String showAllTasks(Model model) {
+    @GetMapping
+    public String index(Model model) {
         Iterable<Task> findAllTasks = taskRepository.findAll();
         model.addAttribute("tasks", findAllTasks);
         Iterable<Category> findAllCategories = categoryRepository.findAll();
         model.addAttribute("categories", findAllCategories);
         model.addAttribute("statuses", Arrays.asList(Status.values()));
-        return "allTasks";
+        return "tasks/index";
     }
 
-    @GetMapping("/createTask")
-    public String showCreateTaskForm(Model model) {
-        Category category = new Category();
+    @GetMapping("/create")
+    public String createForm(Model model) {
+        Task task = new Task();
         Iterable<Category> findAllCategories = categoryRepository.findAll();
         model.addAttribute("categories", findAllCategories);
-        Task task = new Task();
         model.addAttribute("statuses", Arrays.asList(Status.values()));
         model.addAttribute("task", task);
-        return "createTask";
+        return "tasks/create";
     }
 
-    @PostMapping("/createTask")
-    public String saveTask(@Valid Task task, BindingResult result, Model model) {
+    @PostMapping("/create")
+    public String createTask(@Valid Task task, BindingResult result, Model model) {
         taskValidator.validate(task, result);
         Iterable<Category> findAllCategories = categoryRepository.findAll();
         model.addAttribute("categories", findAllCategories);
         model.addAttribute("statuses", Arrays.asList(Status.values()));
         if (result.hasErrors()) {
-            return "createTask";
+            return "tasks/create";
         }
-         taskRepository.save(task);
-        return "redirect:/allTasks";
+        taskRepository.save(task);
+        return "redirect:/tasks";
     }
+
+    @GetMapping("/update/{id}")
+    public String updateForm(Model model, @PathVariable("id") Long id) {
+
+        Task task = taskRepository.findById(id).orElseThrow(()
+                -> new IllegalArgumentException("Invalid task Id:" + id));
+
+       /* DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        if (task.getPlannedOn() != null) {
+            String formattedDate = task.getPlannedOn().format(formatter);
+            model.addAttribute("formattedPlannedOn", formattedDate);
+        }*/
+
+        Iterable<Category> findAllCategories = categoryRepository.findAll();
+        model.addAttribute("categories", findAllCategories);
+        model.addAttribute("statuses", Arrays.asList(Status.values()));
+        model.addAttribute("task", task);
+        return "tasks/update";
+    }
+
+/*    @PostMapping("/update")
+    public String updateTask(@Valid Task task, BindingResult result, Model model) {
+        taskValidator.validate(task, result);
+        Iterable<Category> findAllCategories = categoryRepository.findAll();
+        model.addAttribute("categories", findAllCategories);
+        model.addAttribute("statuses", Arrays.asList(Status.values()));
+        if (result.hasErrors()) {
+            return "tasks/edit";
+        }
+        taskRepository.save(task);
+        return "redirect:/tasks";
+    }*/
 }

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/stylesheet.css">
+    <title>Update task</title>
+</head>
+<body>
+<h1>Update task</h1>
+<form th:action="@{/tasks/update/{id}(id=${task.id})}" th:object="${task}" method="post">
+    <label for="title">Task:</label><br>
+    <input type="text" id="title" th:field="*{title}"><br>
+    <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+
+    <label for="plannedOn">Planned date:</label><br>
+    <input type="date" id="plannedOn" th:field="*{plannedOn}">
+    <p th:if="${#fields.hasErrors('plannedOn')}" th:errors="*{plannedOn}"></p><br>
+
+    <label for="status"></label><br>
+    <select id="status" th:field="*{status}">
+        <option value="">Select a Status</option>
+        <option th:each="status : ${statuses}" th:value="${status}" th:text="${status.displayName}"></option>
+    </select><br>
+    <p th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></p><br>
+
+    <select id="category" th:field="*{category}">
+        <option value="">Select a Category</option>
+        <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}" th:data-color="${category.color}"></option>
+    </select>
+    <p th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></p><br>
+
+    <label for="colorPicker"></label>
+    <input type="color" id="colorPicker" name="color" disabled><br>
+
+    <input type="submit" value="Save">
+</form>
+</body>
+</html>

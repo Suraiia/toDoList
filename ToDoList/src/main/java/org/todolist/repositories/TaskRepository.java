@@ -16,7 +16,6 @@ public interface TaskRepository extends CrudRepository<Task, Long> {
     @Query("SELECT t FROM Task t WHERE t.plannedOn = :specificDate")
     List<Task> findTasksBySpecificDate(@Param("specificDate") LocalDate specificDate);
 
-    Optional<Task> findById(Long taskId);
 
 
 }

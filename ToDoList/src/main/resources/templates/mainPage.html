@@ -9,8 +9,8 @@
 <body>
 <div class="container">
     <div class="navbar">
-        <a th:href="@{/allTasks}">My tasks</a>
-        <a th:href="@{/createTask}">Create new task</a>
+        <a th:href="@{/tasks}">My tasks</a>
+        <a th:href="@{/tasks/create}">Create new task</a>
         <a th:href="@{/mainPage}">My day</a>
         <!-- <a th:href="@{/myWeek}">My week</a> -->
         <!-- <a th:href="@{/myCategories}">My categories</a>  -->
@@ -37,7 +37,7 @@
             </tr>
         </table>
 
-        <a th:href="@{/createTask}" target="_self">Add task</a>
+        <a th:href="@{/tasks/create}" target="_self">Add task</a>
     </div>
 </div>
 </body>

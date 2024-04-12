@@ -3,7 +3,6 @@ package org.todolist.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.lang.NonNull;
 
 import java.time.LocalDate;
 
@@ -12,7 +11,7 @@ public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long taskId;
+    private long id;
 
     @NotEmpty(message = "Name may not be empty")
     private String title;
@@ -32,12 +31,12 @@ public class Task {
     private Category category;
 
 
-    public long getTaskId() {
-        return taskId;
+    public long getId() {
+        return id;
     }
 
-    public void setTaskId(long taskId) {
-        this.taskId = taskId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getTitle() {

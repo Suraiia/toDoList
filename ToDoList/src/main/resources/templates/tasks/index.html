@@ -10,8 +10,8 @@
 <body>
 <div class="container">
     <div class="navbar">
-        <a th:href="@{/allTasks}">My tasks</a>
-        <a th:href="@{/createTask}">Create new task</a>
+        <a th:href="@{/tasks}">My tasks</a>
+        <a th:href="@{/tasks/create}">Create new task</a>
         <a th:href="@{/mainPage}">My day</a>
         <!-- <a th:href="@{/myWeek}">My week</a> -->
         <!-- <a th:href="@{/myCategories}">My categories</a>  -->
@@ -38,7 +38,7 @@
                 <td class="tasks"
                     th:style="'background-color:' + (${task.category != null} ? ${task.category.color} : ' ')">
                     <span th:text="${task.category != null ? task.category.name : ' '}"></span>
-                <td> <a th:href="@{/editTask}">Edit</a></td>
+                <td> <a th:href="@{/tasks/update/{id}(id=${task.id})}">Edit</a></td>
                 <td> <a th:href="@{/deleteTask}">Delete</a></td>
             </tr>
         </table>

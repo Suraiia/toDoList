@@ -11,7 +11,7 @@
 <h1>Create task</h1>
 
 
-<form th:action="@{/createTask}" th:object="${task}" method="post">
+<form th:action="@{/tasks/create}" th:object="${task}" method="post">
     <label for="title">Task:</label><br>
     <input type="text" id="title" th:field="*{title}"><br>
     <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
