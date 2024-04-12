@@ -9,37 +9,33 @@
 <body>
 <div class="container">
     <div class="navbar">
-        <table>
-            <tr>My tasks</tr>
-            <br/>
-            <tr>My day</tr>
-            <br/>
-            <tr>My week</tr>
-            <br/>
-            <tr>My categories</tr>
-            <br/>
-        </table>
+        <a th:href="@{/allTasks}">My tasks</a>
+        <a th:href="@{/createTask}">Create new task</a>
+        <a th:href="@{/mainPage}">My day</a>
+        <!-- <a th:href="@{/myWeek}">My week</a> -->
+        <!-- <a th:href="@{/myCategories}">My categories</a>  -->
     </div>
-    <br/>
 
     <div class="mainBox">
         <h1>My Day</h1>
         <table>
             <tr>
-                <th>Task</th>
-                <th>Created on</th>
+                <th>Title</th>
+                <th>Created At</th>
                 <th>Planned On</th>
                 <th>Status</th>
-
+                <th>Category</th>
             </tr>
             <tr th:each="task : ${tasks}" class="tasks">
                 <td th:text="${task.title}" class="tasks"></td>
                 <td th:text="${task.createdAt}" class="tasks"></td>
                 <td th:text="${task.plannedOn}" class="tasks"></td>
                 <td th:text="${task.status}" class="tasks"></td>
+                <td class="tasks"
+                    th:style="'background-color:' + (${task.category != null} ? ${task.category.color} : ' ')">
+                    <span th:text="${task.category != null ? task.category.name : ' '}"></span>
             </tr>
         </table>
-        <br/>
 
         <a th:href="@{/createTask}" target="_self">Add task</a>
     </div>
