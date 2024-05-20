@@ -1,10 +1,13 @@
 package org.todolist.service;
 
+import org.springframework.stereotype.Service;
+import java.time.LocalDate;
+
+@Service
 public class TaskService {
-
-// display today´s tasks
-    // find all tasks, filter by date.now()
-
+    public boolean isPlannedDateValid(LocalDate plannedOn) {
+        return !plannedOn.isBefore(LocalDate.now());
+    }
 
     }
 

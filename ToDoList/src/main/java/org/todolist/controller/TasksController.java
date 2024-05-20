@@ -11,9 +11,9 @@ import org.todolist.entities.Status;
 import org.todolist.entities.Task;
 import org.todolist.repositories.CategoryRepository;
 import org.todolist.repositories.TaskRepository;
+import org.todolist.service.TaskService;
 import org.todolist.validator.TaskValidator;
 
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 @Controller
@@ -27,11 +27,12 @@ public class TasksController {
     private CategoryRepository categoryRepository;
 
     private final TaskValidator taskValidator;
-
+    private final TaskService taskService;
 
     @Autowired
-    public TasksController(TaskValidator taskValidator) {
+    public TasksController(TaskValidator taskValidator, TaskService taskService) {
         this.taskValidator = taskValidator;
+        this.taskService = taskService;
     }
 
     @GetMapping
@@ -57,6 +58,9 @@ public class TasksController {
     @PostMapping("/create")
     public String createTask(@Valid Task task, BindingResult result, Model model) {
         taskValidator.validate(task, result);
+        if (task.getPlannedOn() != null && !taskService.isPlannedDateValid(task.getPlannedOn())) {
+            result.rejectValue("plannedOn", "error.task", "Planned date cannot be in the past");
+        }
         Iterable<Category> findAllCategories = categoryRepository.findAll();
         model.addAttribute("categories", findAllCategories);
         model.addAttribute("statuses", Arrays.asList(Status.values()));
@@ -69,16 +73,7 @@ public class TasksController {
 
     @GetMapping("/update/{id}")
     public String updateForm(Model model, @PathVariable("id") Long id) {
-
-        Task task = taskRepository.findById(id).orElseThrow(()
-                -> new IllegalArgumentException("Invalid task Id:" + id));
-
-       /* DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        if (task.getPlannedOn() != null) {
-            String formattedDate = task.getPlannedOn().format(formatter);
-            model.addAttribute("formattedPlannedOn", formattedDate);
-        }*/
-
+        Task task = taskRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid task Id:" + id));
         Iterable<Category> findAllCategories = categoryRepository.findAll();
         model.addAttribute("categories", findAllCategories);
         model.addAttribute("statuses", Arrays.asList(Status.values()));
@@ -86,7 +81,8 @@ public class TasksController {
         return "tasks/update";
     }
 
-/*    @PostMapping("/update")
+    /*
+    @PostMapping("/update")
     public String updateTask(@Valid Task task, BindingResult result, Model model) {
         taskValidator.validate(task, result);
         Iterable<Category> findAllCategories = categoryRepository.findAll();
@@ -97,5 +93,6 @@ public class TasksController {
         }
         taskRepository.save(task);
         return "redirect:/tasks";
-    }*/
+    }
+    */
 }
